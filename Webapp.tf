@@ -1,12 +1,9 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
-
-resource "azurerm_kubernetes_cluster" "example" {
-  name                = "example-aks1"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+resource "azurerm_kubernetes_cluster" "kubcluster" {
+  #for_each            ={for cluster in local.cluster_names:cluster=>cluster}
+  name                = "${var.prefix}cluster"
+  #-${each.key}
+  location            = azurerm_resource_group.azureresourcegroup.location
+  resource_group_name = azurerm_resource_group.azureresourcegroup.name
   dns_prefix          = "exampleaks1"
 
   default_node_pool {
